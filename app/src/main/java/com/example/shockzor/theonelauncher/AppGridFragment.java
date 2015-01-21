@@ -58,10 +58,43 @@ public class AppGridFragment extends GridFragment implements LoaderManager.Loade
         AppModel app = (AppModel) getGridAdapter().getItem(position);
         if (app != null) {
             Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(app.getApplicationPackageName());
-
             if (intent != null) {
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onGridItemLongClick(GridView g, View v, int position, long id) {
+        //AppModel app = (AppModel) getGridAdapter().getItem(position);
+
+        //final Context ctx = getActivity();
+
+        //View headerView = View.inflate(this.getActivity(), R.layout.activity_home, null);
+        //RelativeLayout homeView = (RelativeLayout) headerView.findViewById(R.id.home_view);
+        //RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
+        //lp.leftMargin = (int) v.getX();
+        //lp.topMargin = (int) v.getY();
+
+        //LayoutInflater li = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //LinearLayout ll = (LinearLayout) li.inflate(R.layout.grid_entry, null);
+
+        //((TextView)ll.findViewById(R.id.text)).setText(app.getLabel());
+        //Drawable icon = app.getIcon();
+
+        //((TextView) ll.findViewById(R.id.text)).setCompoundDrawables(null, icon, null, null);
+
+
+        //((TextView)ll.findViewById(R.id.text)).setText(((TextView)v.findViewById(R.id.text)).getText());
+
+        //homeView.addView(ll, lp);
+
+        Intent intent = new Intent();
+        intent.setAction("shockzor.theonelauncher.ADD_SHORTCUT");
+        intent.putExtra("app", position);
+
+        getActivity().sendBroadcast(intent);
+
+        startActivity(intent);
     }
 }

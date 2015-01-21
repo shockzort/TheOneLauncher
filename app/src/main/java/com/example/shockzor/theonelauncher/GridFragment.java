@@ -47,6 +47,15 @@ import android.widget.TextView;
  */
 public class GridFragment extends Fragment {
 
+    ListAdapter mAdapter;
+    GridView mGrid;
+    View mEmptyView;
+    TextView mStandardEmptyView;
+    View mProgressContainer;
+    View mGridContainer;
+    CharSequence mEmptyText;
+    boolean mGridShown;
+
     static final int INTERNAL_EMPTY_ID = 0x00ff0001;
     static final int INTERNAL_PROGRESS_CONTAINER_ID = 0x00ff0002;
     static final int INTERNAL_LIST_CONTAINER_ID = 0x00ff0003;
@@ -66,14 +75,13 @@ public class GridFragment extends Fragment {
         }
     };
 
-    ListAdapter mAdapter;
-    GridView mGrid;
-    View mEmptyView;
-    TextView mStandardEmptyView;
-    View mProgressContainer;
-    View mGridContainer;
-    CharSequence mEmptyText;
-    boolean mGridShown;
+    final private AdapterView.OnItemLongClickListener mOnLongClickListener
+            = new AdapterView.OnItemLongClickListener() {
+        public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+            onGridItemLongClick((GridView) parent, v, position, id);
+            return false;
+        }
+    };
 
     public GridFragment() { }
 
@@ -197,6 +205,21 @@ public class GridFragment extends Fragment {
      * @param id The row id of the item that was clicked
      */
     public void onGridItemClick(GridView g, View v, int position, long id) {
+
+    }
+
+    /**
+     * This method will be called when an item in the grid is long clicked.
+     * Subclasses should override. Subclasses can call
+     * getGridView().getItemAtPosition(position) if they need to access the
+     * data associated with the selected item.
+     *
+     * @param g The {@link GridView} where the click happened
+     * @param v The view that was clicked within the {@link GridView}
+     * @param position The position of the view in the grid
+     * @param id The row id of the item that was clicked
+     */
+    public void onGridItemLongClick(GridView g, View v, int position, long id) {
 
     }
 
@@ -387,6 +410,7 @@ public class GridFragment extends Fragment {
         }
         mGridShown = true;
         mGrid.setOnItemClickListener(mOnClickListener);
+        mGrid.setOnItemLongClickListener(mOnLongClickListener);
         if (mAdapter != null) {
             ListAdapter adapter = mAdapter;
             mAdapter = null;
